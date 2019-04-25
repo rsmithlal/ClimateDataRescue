@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  namespace :better_together do
+    resources :posts
+  end
   filter :locale
 
   namespace :admin do

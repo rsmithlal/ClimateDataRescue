@@ -1,0 +1,8 @@
+= simple_form_for(@better_together_post) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :bt_id
+
+  .form-actions
+    = f.button :submit

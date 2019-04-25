@@ -1,0 +1,9 @@
+p#notice = notice
+
+p
+  strong Bt:
+  = @better_together_post.bt_id
+
+=> link_to 'Edit', edit_better_together_post_path(@better_together_post)
+'|
+=< link_to 'Back', better_together_posts_path

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2017_11_07_024341) do
+ActiveRecord::Schema.define(version: 2019_04_25_130144) do
 
   create_table "annotations", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.integer "x_tl"
@@ -28,6 +28,12 @@ ActiveRecord::Schema.define(version: 2017_11_07_024341) do
     t.index ["field_group_id"], name: "by_field_group"
     t.index ["page_id"], name: "by_page"
     t.index ["transcription_id"], name: "by_transcription"
+  end
+
+  create_table "better_together_posts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "bt_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "content_images", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
