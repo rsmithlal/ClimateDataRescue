@@ -19,4 +19,15 @@ RSpec.describe BetterTogether::Post, type: :model do
   describe 'callbacks' do
 
   end
+
+  it_behaves_like 'a translatable record'
+  it_behaves_like 'a friendly slugged record'
+
+  describe '#title' do
+    it { is_expected.to respond_to(:title) }
+  end
+
+  describe '#content' do
+    it { is_expected.to respond_to(:content) }
+  end
 end

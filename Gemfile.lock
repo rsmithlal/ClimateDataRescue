@@ -130,6 +130,11 @@ GEM
     ffi (1.9.25)
     figaro (1.1.1)
       thor (~> 0.14)
+    friendly_id (5.2.5)
+      activerecord (>= 4.0.0)
+    friendly_id-mobility (0.5.4)
+      friendly_id (>= 5.0.0, <= 5.3.0)
+      mobility (>= 0.5.1, < 1.0)
     fuubar (2.3.2)
       rspec-core (~> 3.0)
       ruby-progressbar (~> 1.4)
@@ -180,6 +185,9 @@ GEM
     mini_racer (0.2.0)
       libv8 (>= 6.3)
     minitest (5.11.3)
+    mobility (0.8.7)
+      i18n (>= 0.6.10, < 2)
+      request_store (~> 1.0)
     modernizr-rails (2.7.1)
     msgpack (1.2.4)
     multi_json (1.13.1)
@@ -393,6 +401,8 @@ DEPENDENCIES
   factory_bot_rails
   faker (~> 1.9.1)
   figaro
+  friendly_id (~> 5.2.0)
+  friendly_id-mobility (~> 0.5.4)
   fuubar
   globalize!
   globalize-accessors
@@ -406,6 +416,7 @@ DEPENDENCIES
   log4r
   mime-types
   mini_racer
+  mobility (~> 0.8.6)
   modernizr-rails
   mysql2
   newrelic_rpm
@@ -440,4 +451,4 @@ DEPENDENCIES
   will_paginate
 
 BUNDLED WITH
-   1.16.6
+   1.17.3

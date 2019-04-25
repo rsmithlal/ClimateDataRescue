@@ -63,6 +63,10 @@ gem 'i18n-active_record', :require => 'i18n/active_record'
 
 gem 'rails-observers'
 
+gem 'friendly_id', '~> 5.2.0'
+gem 'mobility', '~> 0.8.6'
+gem 'friendly_id-mobility', '~> 0.5.4'
+
 gem 'globalize', git: 'https://github.com/globalize/globalize'
 gem 'globalize-accessors'
 gem "skylight"

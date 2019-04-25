@@ -1,7 +1,8 @@
 
 class BetterTogether::Post < ApplicationRecord
-  # include Mobility
+  include FriendlySlug
+  slugged :title
 
-  # translates :name
-  # translates :description, type: :text
+  translates :title
+  translates :content, type: :text
 end
