@@ -1,9 +1,7 @@
 p#notice = notice
 
-p
-  strong Bt:
-  = @better_together_post.bt_id
-
-=> link_to 'Edit', edit_better_together_post_path(@better_together_post)
-'|
-=< link_to 'Back', better_together_posts_path
+div class=dom_class(@better_together_post, :detail)
+  h3
+    = @better_together_post.title
+  .post-content-summary
+    = @better_together_post.content

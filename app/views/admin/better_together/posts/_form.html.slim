@@ -1,0 +1,10 @@
+= simple_form_for([:admin, @better_together_post]) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :title
+    = f.input :content, as: :text, input_html: { rows: 20 }
+    = f.input :slug, required: false
+
+  .form-actions
+    = f.button :submit, class: 'btn-primary'

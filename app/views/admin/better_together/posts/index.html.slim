@@ -1,0 +1,25 @@
+h1 Listing better_together_posts
+
+table
+  thead
+    tr
+      th Bt_id
+      th Title
+      th Content
+      th
+      th
+      th
+
+  tbody
+    - @better_together_posts.each do |better_together_post|
+      tr
+        td = better_together_post.bt_id
+        td = better_together_post.title
+        td = better_together_post.content
+        td = link_to 'Show', [:admin, better_together_post]
+        td = link_to 'Edit', edit_admin_better_together_post_path(better_together_post)
+        td = link_to 'Destroy', [:admin, better_together_post], data: { confirm: 'Are you sure?' }, method: :delete
+
+br
+
+= link_to 'New Post', new_admin_better_together_post_path

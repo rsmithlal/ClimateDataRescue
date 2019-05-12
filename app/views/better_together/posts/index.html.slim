@@ -1,21 +1,4 @@
-h1 Listing better_together_posts
+h1 Posts
 
-table
-  thead
-    tr
-      th Bt
-      th
-      th
-      th
+= render partial: 'better_together_post', collection: @better_together_posts
 
-  tbody
-    - @better_together_posts.each do |better_together_post|
-      tr
-        td = better_together_post.bt_id
-        td = link_to 'Show', better_together_post
-        td = link_to 'Edit', edit_better_together_post_path(better_together_post)
-        td = link_to 'Destroy', better_together_post, data: { confirm: 'Are you sure?' }, method: :delete
-
-br
-
-= link_to 'New Post', new_better_together_post_path
