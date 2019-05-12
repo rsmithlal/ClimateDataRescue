@@ -60,6 +60,7 @@ gem 'http_accept_language'
 
 gem 'rails-i18n'
 gem 'i18n-active_record', :require => 'i18n/active_record'
+# gem 'i18n-tasks'
 
 gem 'rails-observers'
 
@@ -118,6 +119,8 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'shoulda-matchers'
   gem 'shoulda-callback-matchers'
+  gem 'capybara'
+  gem 'database_cleaner'
 end
 
 group :test do
