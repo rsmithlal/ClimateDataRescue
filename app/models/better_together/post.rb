@@ -1,6 +1,6 @@
 
 class BetterTogether::Post < ApplicationRecord
-  include FriendlySlug
+  include ::BetterTogether::FriendlySlug
   slugged :title
 
   translates :title
