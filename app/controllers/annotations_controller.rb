@@ -10,7 +10,10 @@ class AnnotationsController < ApplicationController
   def index
     #@annotations is the variable containing all instances of the "annotation.rb" model passed to the annotation view "index.html.slim" (project_root/annotations) and is used to populate the page with information about each annotation using @annotations.each (an iterative loop).
     if params[:transcription_id]
-      @annotations = Annotation.where(transcription_id: params[:transcription_id]).includes(
+      transcription = Transcription.find(params[:transcription_id])
+      page = transcription.page
+      transcription_ids = page.transcription_ids
+      @annotations = Annotation.where(transcription_id: transcription_ids)(
           { :field_group => [
               { :fields => [:translations, :field_options] },
               :translations 
