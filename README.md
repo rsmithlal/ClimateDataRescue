@@ -82,6 +82,12 @@ If 'docker' does not appear among the groups for your user, you will need to fix
 
 #### Docker Containers
 
+Before building the docker images, you will need to call a python3 script that generates two config files with a secure MySQL root password. From the top level folder in the repository, run the following command:
+
+```bash
+python3 generate_secure.py
+```
+
 Next, clone a copy of this repository. Navigate to the project directory in the terminal.
 
 Ensure you are at the application folder and run the following script to extract the initial files and build the docker containers:
