@@ -4,6 +4,7 @@ config files for the docker application.
 """
 
 import os
+import sys
 import string
 import secrets
 
@@ -34,9 +35,9 @@ def verify_files(docker_folder):
         raise FileNotFoundError(f"Config file {db_file} not generated.")
 
 
-def write_db_config(db_file, secure_pass)
+def write_db_config(db_file, secure_pass):
     f = open(db_file, "w")
-    pass_block = f"MYSQL_ROOT_PASSWORD={secure_pass}"
+    pass_block = f"MYSQL_ROOT_PASSWORD={secure_pass}\n"
 
     f.write(pass_block)
     f.close()
@@ -45,7 +46,7 @@ def write_db_config(db_file, secure_pass)
 def write_app_config(app_file, secure_pass):
 
     f = open(app_file, "w")
-    pass_block = f"MYSQL_ROOT_PASSWORD={secure_pass}"
+    pass_block = f"MYSQL_ROOT_PASSWORD={secure_pass}\n"
 
     f.write(pass_block)
 
@@ -87,7 +88,6 @@ def main():
 
     print("The secure MySQL root password for this docker instance is:")
     print(secure_pass)
-    print('\n')
     print("The config files have been generated with this pass. Copypaste this password somewhere secure.")
 
 

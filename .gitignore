@@ -21,6 +21,8 @@ pickle-email-*.html
 .project
 
 # Docker MYSQL config files
+docker/.env.db.conf
+docker/.env.app.conf
 
 # TODO Comment out these rules if you are OK with secrets being uploaded to the repo
 config/secret_token.rb
