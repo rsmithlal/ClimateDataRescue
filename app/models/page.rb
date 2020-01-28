@@ -1,5 +1,4 @@
 class Page < ApplicationRecord
-
   Paperclip.interpolates :image_file_name do |attachment, style|
     attachment.instance.image_file_name
   end
@@ -21,7 +20,7 @@ class Page < ApplicationRecord
                     xlarge: ["1000x1000>", :jpg]
                   },
                   default_style: :medium,
-                  url: "/system/:class/:style/:image_file_name.:extension"
+                  url: "/:class/:style/:image_file_name"
   validates_attachment :image,
                      content_type: { content_type: ["image/jpg","image/jpeg", "image/png"] }
 
