@@ -5,4 +5,10 @@ class BetterTogether::Post < ApplicationRecord
 
   translates :title
   translates :content, type: :text
+
+  validates :title,
+            presence: true
+
+  validates :content,
+            presence: true
 end
