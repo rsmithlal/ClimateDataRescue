@@ -60,7 +60,7 @@ Rails.application.routes.draw do
 
 
   resources :pages, only: [:show, :index]
-  get 'weather-logs' => 'pages#index', as: "public_pages_index"
+  get 'pages' => 'pages#index', as: "public_pages_index"
   # post 'pages' => 'pages#create', as: "pages_create"
 
   resources :field_options, only: [:index]
@@ -71,9 +71,13 @@ Rails.application.routes.draw do
   resources :field_groups, only: [:index]
 
   devise_for :users, :controllers => {:registrations => "registrations"}
-  resources :users, except: [:create, :new, :destroy, :index]
+  resources :users, except: [:create, :new, :destroy, :index] do
+    member do
+      get :completed_transcriptions, to: 'transcriptions#completed_transcriptions_table'
+    end
+  end
   match 'users/dismiss_box_tutorial' => 'users#dismiss_box_tutorial', :via => [:post]
-  get 'my-profile' => 'users#my_profile', as: "my_profile"
+  get 'my-profile' => 'users#show', as: "my_profile"
 
   post 'create_page_metadata' => "page_days#create"
 
@@ -89,8 +93,6 @@ Rails.application.routes.draw do
 
   # authenticate :user, lambda { |u| u.admin? } do
   #   # mount Sidekiq::Web => '/sidekiq'
-
-  #   mount Interpret::Engine => "/translator"
   # end
 
   devise_scope :user do

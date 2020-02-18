@@ -4,13 +4,16 @@
 #
 # Examples:
 #
-User.create!(
-  email: 'draw-dev-admin@grr.la',
-  password: 'password',
-  password_confirmation: 'password',
-  display_name: 'Administrator',
-  admin: true
-)
+unless User.any?
+  User.create!(
+    email: 'draw-dev-admin@grr.la',
+    password: 'password',
+    password_confirmation: 'password',
+    display_name: 'Administrator',
+    admin: true,
+    confirmed_at: DateTime.current
+  )
+end
 
 unless Rails.env.production?
   connection = ActiveRecord::Base.connection
@@ -19,7 +22,7 @@ unless Rails.env.production?
   end
 
   sql = File.read('docker/init-data/DRAW-init.sql')
-  statements = sql.split(/;\r\n/)
+  statements = sql.split(/;$/)
   statements.pop
 
   ActiveRecord::Base.transaction do

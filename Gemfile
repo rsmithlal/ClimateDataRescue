@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 5.2.1'
+gem 'rails', '~> 5.2.3'
 
 gem 'mysql2'
 
@@ -12,6 +12,8 @@ gem 'jquery-ui-rails'
 gem "ranked-model"
 
 gem 'uglifier'
+
+gem 'activerecord-session_store'
 
 #bootstrap stuff
 gem 'sass-rails'
@@ -43,6 +45,7 @@ gem 'will_paginate'
 
 #for attachments
 gem 'paperclip'
+gem 'aws-sdk-s3', '~> 1'
 
 # Support for tag inputs
 gem 'select2-rails'
@@ -71,13 +74,14 @@ gem 'friendly_id-mobility', '~> 0.5.4'
 gem 'globalize', git: 'https://github.com/globalize/globalize'
 gem 'globalize-accessors'
 gem "skylight"
-# gem 'interpret', :git => 'git://github.com/balen/interpret.git', :branch => 'upgrade/rails4'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'newrelic_rpm'
 gem 'rollbar'
-gem 'puma'
+gem 'puma',  '~> 4.3.1'
+
+gem "recaptcha", require: "recaptcha/rails"
 
 gem 'bootsnap', '>= 1.1.0', require: false
 
@@ -89,7 +93,7 @@ group :development do
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
   gem 'capistrano3-puma'
-  
+
   gem 'execjs'
 
   gem "better_errors"

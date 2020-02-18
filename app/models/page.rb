@@ -28,7 +28,9 @@ class Page < ApplicationRecord
   
   #sets a scope for all transcribable pages to be those that are not done
   scope :transcribeable, -> { 
-    joins(page_type: :field_groups).
+    joins(page_type: {
+      field_groups: :fields
+    }).
     where(
       done: false, visible: true, 
       page_types: { visible: true }
@@ -39,6 +41,17 @@ class Page < ApplicationRecord
     if user && user.pages.any?
       where("pages.id not in (?)", user.pages.pluck(:id))
     end
+  }
+
+  scope :inactive, -> {
+    transcriptions = Transcription.arel_table
+    condition = transcriptions[:id].eq(nil).or(
+      transcriptions[:updated_at].lt(Date.current - 2.weeks)
+    )
+
+    includes(:transcriptions).
+    references(:transcriptions).
+    where(condition)
   }
 
   def has_metadata?

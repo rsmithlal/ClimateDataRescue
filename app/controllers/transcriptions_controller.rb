@@ -10,6 +10,60 @@ class TranscriptionsController < ApplicationController
     redirect_to my_profile_path
   end
 
+  def completed_transcriptions_table
+    if params[:id] #user ID
+      @user = User.includes(
+        {
+          transcriptions: [
+            { 
+              page: [
+                :page_days
+              ] 
+            },
+            :annotations
+          ]
+        },
+        :data_entries
+      ).find(params[:id])
+
+      page = params[:page].to_i
+      per_page = params[:per_page].to_i
+
+      offset = per_page * (page - 1)
+      limit = per_page
+
+      @completed_transcriptions =
+        @user.transcriptions
+             .completed
+             .order(updated_at: :desc)
+             .includes([
+               { 
+                 page: [
+                   :page_days,
+                   :page_type
+                 ] 
+               },
+               { annotations: :data_entries },
+               :user
+             ])
+             .references([
+               { 
+                 page: [
+                   :page_days,
+                   :page_type
+                 ] 
+               },
+               { annotations: :data_entries },
+               :user
+             ])
+             .offset(offset)
+             .limit(limit)
+      respond_to do |format|
+        format.html {render layout: 'raw'}
+      end
+    end
+  end
+
   # GET /transcriptions/transcription_id
   # GET /transcriptions/transcription_id.json
   def show    
@@ -138,7 +192,7 @@ class TranscriptionsController < ApplicationController
     if page_id
       page = Page.find(page_id)
     else
-      page = Page.transcribeable.unseen(current_user).reorder("RAND()").first
+      page = Page.inactive.transcribeable.unseen(current_user).reorder("RAND()").first
     end
     
     page
