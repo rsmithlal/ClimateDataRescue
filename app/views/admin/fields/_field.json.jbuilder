@@ -4,6 +4,7 @@ if field
     json.internal_name field.internal_name
     json.name field.name
     json.full_name field.full_name
+    json.default_value field.default_value
     json.field_key field.field_key
     json.html_field_type field.html_field_type
     json.data_type field.data_type

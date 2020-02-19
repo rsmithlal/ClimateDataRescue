@@ -87,6 +87,7 @@
           text : option.name_en,
           title : title,
           icon_url: option.icon_url,
+          value: option.value,
           text_symbol: option.text_symbol,
           display_attribute: option.display_attribute,
           is_field_option: true,
@@ -865,6 +866,7 @@
               $option.attr("data-icon-url", option.icon_url);
               $option.attr("data-text-symbol", option.text_symbol);
               $option.attr("data-name", option.name);
+              $option.attr("selected", $option.attr("selected") || option.value === field.default_value);
               $option.attr("data-is-field-option", true);
               $select.append($option).trigger("change");
             });

@@ -41,6 +41,11 @@
                     title : "Unique Field Key",
                     hint : "Enter a unique identifier for this field. No spaces, use underscores to separate words."
                 },
+                default_value : {
+                    type : "Text",
+                    title : "Default Value",
+                    hint : "Enter a default value for this field"
+                },
                 data_type : {
                     type : "Select",
                     title : "Data Type",
@@ -381,6 +386,7 @@
         </td>
         <td>{{= help }}</td>
         <td>{{= field_key }}</td>
+        <td>{{= default_value }}</td>
         <td>{{= data_type }}</td>
         <td>{{= num_field_values }}<br /><a href="<%= admin_fields_path %>/{{= id }}/edit" target="field_{{= id }}">Add/Remove Values <i class="fa fa-external-link"></i></a></td>
         <td>
@@ -401,6 +407,7 @@
                 <th>Name</th>
                 <th>Help</th>
                 <th>Field Key</th>
+                <th>Default Value</th>
                 <th>Data Type</th>
                 <th>Field Values</th>
                 <th></th>

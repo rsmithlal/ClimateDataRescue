@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_11_232706) do
+ActiveRecord::Schema.define(version: 2020_02_18_231232) do
 
   create_table "annotations", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.integer "x_tl"
@@ -28,12 +28,6 @@ ActiveRecord::Schema.define(version: 2020_02_11_232706) do
     t.index ["field_group_id"], name: "by_field_group"
     t.index ["page_id"], name: "by_page"
     t.index ["transcription_id"], name: "by_transcription"
-  end
-
-  create_table "better_together_posts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "bt_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "content_images", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
@@ -138,17 +132,7 @@ ActiveRecord::Schema.define(version: 2020_02_11_232706) do
     t.datetime "updated_at"
     t.boolean "multi_select", default: false
     t.string "internal_name"
-  end
-
-  create_table "friendly_id_slugs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "slug", null: false
-    t.integer "sluggable_id", null: false
-    t.string "sluggable_type", limit: 50
-    t.string "scope"
-    t.datetime "created_at"
-    t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true, length: { slug: 70, scope: 70 }
-    t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", length: { slug: 140 }
-    t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
+    t.string "default_value", default: "", null: false
   end
 
   create_table "ledgers", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -158,31 +142,6 @@ ActiveRecord::Schema.define(version: 2020_02_11_232706) do
     t.datetime "updated_at"
   end
 
-  create_table "mobility_string_translations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "locale", null: false
-    t.string "key", null: false
-    t.string "value"
-    t.string "translatable_type"
-    t.bigint "translatable_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["translatable_id", "translatable_type", "key"], name: "index_mobility_string_translations_on_translatable_attribute"
-    t.index ["translatable_id", "translatable_type", "locale", "key"], name: "index_mobility_string_translations_on_keys", unique: true
-    t.index ["translatable_type", "key", "value", "locale"], name: "index_mobility_string_translations_on_query_keys"
-  end
-
-  create_table "mobility_text_translations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "locale", null: false
-    t.string "key", null: false
-    t.text "value"
-    t.string "translatable_type"
-    t.bigint "translatable_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["translatable_id", "translatable_type", "key"], name: "index_mobility_text_translations_on_translatable_attribute"
-    t.index ["translatable_id", "translatable_type", "locale", "key"], name: "index_mobility_text_translations_on_keys", unique: true
-  end
-
   create_table "page_days", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.date "date"
     t.integer "num_observations"
@@ -190,6 +149,22 @@ ActiveRecord::Schema.define(version: 2020_02_11_232706) do
     t.integer "user_id"
     t.index ["page_id"], name: "by_page"
     t.index ["user_id"], name: "by_user"
+  end
+
+  create_table "page_infos", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "observer"
+    t.string "lat"
+    t.string "lon"
+    t.string "location"
+    t.bigint "page_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "elevation"
+    t.integer "month"
+    t.integer "year"
+    t.index ["page_id"], name: "index_page_infos_on_page_id"
+    t.index ["user_id"], name: "index_page_infos_on_user_id"
   end
 
   create_table "page_types", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

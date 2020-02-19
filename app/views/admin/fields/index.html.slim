@@ -13,6 +13,7 @@ h4 Fields from all groups are listed below, edit carefully please.
         th = Field.human_attribute_name(:full_name)
         th = Field.human_attribute_name(:data_type)
         th = Field.human_attribute_name(:field_key)
+        th = Field.human_attribute_name(:default_value)
         th = t('admin.linked-schemas')
         th = t('admin.linked-field-groups')
         th = t('admin.percent-translated')
@@ -26,6 +27,7 @@ h4 Fields from all groups are listed below, edit carefully please.
           td = field.full_name
           td = field.data_type
           td = field.field_key
+          td = field.default_value
           td = field.page_types.count
           td = field.field_groups.count
           td = number_with_precision(field.translation_score, precision: 2).to_s + '%'
