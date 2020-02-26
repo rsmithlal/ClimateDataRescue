@@ -1,0 +1,36 @@
+
+<div class="row">
+  <div class="col-sm-6">
+    <label for="page_ids">Assign Bulk Pages</label>
+    <div class="input-group">
+      <select type="text" class="form-control" name="page_ids">
+
+      </select>
+      <buton
+        id="assign-pages-btn"
+        class="input-group-addon btn btn-primary"
+        type="button"
+        >
+        Assign
+      </button>
+    </div>
+  </div>
+</div>
+
+<script id="assign-bulk-pages-script" type="text/javascript">
+  $(document).ready(function() {
+    console.log('ready');
+    var $select2 = $('[name="page_ids"]');
+
+    $select2.select2({
+      data: <%= transcribable_pages_select2(user).to_json.html_safe %>,
+      multiple: true,
+      placeholder: 'Select pages to assign'
+    });
+
+    $('#assign-pages-btn').click(function() {
+      var ids = $select2.select2('data');
+      console.log($select2, ids);
+    });
+  });
+</script>

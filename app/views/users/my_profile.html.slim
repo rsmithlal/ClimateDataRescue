@@ -34,6 +34,7 @@
           - if @active_transcriptions.any?
             span.badge
               = @active_transcriptions.size
+    = render "transcriptions/user_assign_pages_form", user: @user
     .row.voffset20
       .col-md-12
         - if @active_transcriptions.any?
