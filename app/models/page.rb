@@ -97,6 +97,12 @@ class Page < ApplicationRecord
     end
   end
 
+  def display_name
+    [
+      self.title, self.page_type.title
+    ].join(', ')
+  end
+
   private 
 
   def check_for_delete
