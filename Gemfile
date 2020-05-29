@@ -1,5 +1,8 @@
 source 'https://rubygems.org'
 
+gem 'better_together',
+    github: 'better-together-org/community-engine-rails'
+
 gem 'rails', '~> 5.2.3'
 
 gem 'mysql2'
