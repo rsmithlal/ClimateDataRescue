@@ -29,6 +29,8 @@ module DataRescueAtHome
     # Enable escaping HTML in JSON.
     config.active_support.escape_html_fieldgroups_in_json = true
 
+    config.action_mailer.preview_path = "#{Rails.root}/spec/mailer_previews"
+
     config.assets.paths << Rails.root.join("vendor", "assets", "images", "plugins")
     config.assets.precompile += %w( trombowyg/icons.svg transcriber_app.js snowEffect.js )
 
@@ -64,9 +66,9 @@ module DataRescueAtHome
     # }
 
     config.action_mailer.default_options = {
-      :from   => 'draw_mcgill@outlook.com',
-      :reply_to => 'draw_mcgill@outlook.com',
-      :bcc => 'rsmithlal@gmail.com'
+      :from   => 'draw.mcgill@gmail.com',
+      :reply_to => 'draw.mcgill@gmail.com',
+      :bcc => 'rob@bettertogethersolutions.com'
     }
     config.action_mailer.perform_deliveries = true
     config.action_mailer.raise_delivery_errors = true
