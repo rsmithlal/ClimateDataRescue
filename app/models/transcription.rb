@@ -1,5 +1,5 @@
 class Transcription < ApplicationRecord
-  belongs_to :page, required: true
+  belongs_to :page, required: true, autosave: true
   belongs_to :user, required: true
   has_one :page_type, through: :page
   has_many :field_groups, through: :page_type
@@ -20,7 +20,7 @@ class Transcription < ApplicationRecord
   end
 
   def num_rows_expected
-    page.num_rows_expected || 0
+    page.num_rows_expected
   end
 
   def num_data_entries
@@ -32,11 +32,12 @@ class Transcription < ApplicationRecord
   end
 
   def num_data_entries_expected
-    field_groups_fields_count * num_rows_expected
+    page.expected_cell_count
   end
 
   def percent_complete
-    ((num_data_entries.to_f / num_data_entries_expected.to_f) * 100) || 0
+    return 0 if num_data_entries === 0
+    ((num_data_entries.to_f / num_data_entries_expected.to_f) * 100)
   end
 
   private

@@ -2,6 +2,7 @@ class Page < ApplicationRecord
   belongs_to :page_type
 
   has_many :field_groups, through: :page_type
+  has_many :field_groups_fields, through: :field_groups
   has_many :fields, through: :field_groups
   has_many :transcriptions, dependent: :destroy, autosave: true
   has_many :page_days, dependent: :destroy
@@ -63,12 +64,20 @@ class Page < ApplicationRecord
     page_days.any?
   end
 
-  def num_rows_expected
-    if page_days.any?
-      page_days.sum(:num_observations)
-    else
-      0
-    end
+  def number_of_days
+    (end_date-start_date).to_i + 1
+  end
+
+  def expected_row_count
+    return 0 if page_days.empty?
+
+    page_days.sum(:num_observations)
+  end
+
+  alias_method :num_rows_expected, :expected_row_count
+
+  def expected_cell_count
+    field_groups_fields.size * expected_row_count
   end
   
   def to_jq_upload
