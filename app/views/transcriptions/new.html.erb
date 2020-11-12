@@ -2,31 +2,36 @@
 <% provide :transcribe, "active" %>
 <% provide :new_transcription, "active" %>
 
-<h2><%= t('new-transcription.header') %></h2>
+<h2><%= t('new-transcription') %></h2>
 <% if @page && @page.page_type && @page.page_type.field_groups.any? %>
     <div class="row">
       <div class="col-md-12">
-        <h4><%= t('new-transcription.page-info') %></h4>
-        <ul>
-          <li><%= t('page.first-day') %>: <%= @page.start_date %></li>
-          <li><%= t('page.last-day') %>: <%= @page.end_date %></li>
-        </ul>
+        <h3><%= t('page-info') %></h3>
+        <dl class="dl-horizontal">
+          <dt><%= t('page.number-of-days') %></dt>
+          <dd><%= @page.number_of_days %></dd>
+
+          <dt><%= t('page.first-day') %></dt>
+          <dd><%= @page.start_date %></dd>
+
+          <dt><%= t('page.last-day') %></dt>
+          <dd><%= @page.end_date %></dd>
+
+          <dt><%= t('page.number-of-rows') %></dt>
+          <dd><%= @page.expected_row_count %></dd>
+
+          <dt><%= t('page.number-of-data-points') %></dt>
+          <dd><%= @page.expected_cell_count %></dd>
+
+        </dl>
       </div>
     </div>
-    
-    <div class="row">
-      <div class="col-md-12">
-        <h3><%= t('page-metadata.headers.main') %></h3>
-      </div>
-      <div class="col-md-12 boffset20">
-        <%= render_snippet("/new_transcription_metadata_instructions") %>
-      </div>
 
+    <%= render 'page_field_list', page: @page %>
+    
+    <div class="row voffset20">
       <div class="col-sm-12">
-        <%= link_to t('page-metadata.form.labels.skip-page-btn'), new_transcription_path, class: "btn btn-info pull-right"%>
-      </div>
-      <div class="col-md-12">
-        <%= render 'pages/metadata_form', page: @page, create_transcription: true %>
+        <%= render 'form', page: @page %>
       </div>
     </div>
 

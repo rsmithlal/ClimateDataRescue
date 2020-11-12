@@ -1,0 +1,6 @@
+
+<%= form_tag(transcriptions_path, method: :post) do %>
+  <%= hidden_field_tag "transcription[page_id]", page.id %>
+  <%= button_tag t('transcribe'), class: "btn btn-draw-accented", type:"submit" %>
+  <%= link_to t('page-metadata.form.labels.skip-page-btn'), new_transcription_path, class: "btn btn-default"%>
+<% end %>

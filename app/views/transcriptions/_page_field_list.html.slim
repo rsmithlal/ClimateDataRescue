@@ -1,0 +1,29 @@
+scss:
+  #page-fields {
+    th {
+      cursor: help;
+    }
+    tr.field-names th {
+      min-width: 75px;
+    }
+  }
+
+.row
+  .col-md-12
+    h3 = t('page-fields')
+    /! Display the information of all the fields associated with this page in table format
+    #page-fields.table-responsive
+      table.table.table-striped
+        thead
+          tr
+            th
+            - page.field_groups.each do |group|
+              th.text-center title=group.presentation_name data-toggle="popover" data-trigger="hover" data-container="body" data-placement="bottom" data-content=(group.help.present? ? group.help : "") colspan=group.fields.count style="border-left: 2px solid hsl(0, 0%, 87%); border-right: 2px solid hsl(0, 0%, 87%);"
+                = group.presentation_name
+          tr.field-names
+            th.text-center title=strip_tags(t('transcriber.transcription-box-template.form.fields.labels.datetime')) data-toggle="popover" data-trigger="hover" data-content= t('transcriber.transcription-box-template.form.fields.help.datetime').html_safe data-container="body" data-html="true" data-placement="bottom"
+              = t('observation-date')
+            - page.field_groups.each do |group|
+              - group.fields.each do |field|
+                th.text-center title=(field.full_name.present? ? field.full_name : field.name) data-toggle="popover" data-trigger="hover" data-container="body" data-placement="bottom" data-content=(field.help.present? ? field.help : "")
+                  = field.name_en
