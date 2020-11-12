@@ -159,9 +159,9 @@ class TranscriptionsController < ApplicationController
         begin
           # @transcription is a variable containing an instance of the "transcription.rb" model 
           # created with data passed in the params of the "new.html.slim" form submit action.
-          @transcription = nil
-          @transcription = Transcription.create!(transcription_params)
-          @transcription.page.save!
+          @transcription = Transcription.new(transcription_params)
+          @transcription.user_id = current_user.id if @transcription.user_id.nil?
+          @transcription.save!
         rescue => e
           flash[:danger] = e.message
         end
@@ -197,7 +197,7 @@ class TranscriptionsController < ApplicationController
   
   private
 
-  def get_or_assign_page(page_id) #TODO: shouldn't this be in the helper - file not the controller?
+  def get_or_assign_page(page_id)
   # this function gets a random page for display on the new transcription page 
   # if one has not been set by selecting "Transcribe" on an page's show page
     if page_id
