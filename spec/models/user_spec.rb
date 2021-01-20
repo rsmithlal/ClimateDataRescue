@@ -25,8 +25,6 @@ describe User do
     it { is_expected.to have_attached_file(:avatar) }
     it { is_expected.to validate_attachment_content_type(:avatar).
                   allowing("image/jpg","image/jpeg", "image/png") }
-    it { is_expected.to validate_attachment_size(:avatar).
-                less_than(2.megabytes) }
   end
 
   describe '#name' do

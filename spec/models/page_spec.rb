@@ -32,33 +32,33 @@ describe Page do
 
     context 'when it has page_metadata' do
       it 'returns true' do
-        page.page_metadata.new
+        page.build_page_info
         expect(page.page_metadata?).to be_truthy
       end
     end
 
     context 'when it does not have a page_metadata' do
-      it 'returns true' do
-        page.page_metadata = []
+      it 'returns false' do
+        page.page_info = nil
         expect(page.page_metadata?).to be_falsy
       end
     end
   end
 
-  describe '#page_days?' do
-    it { is_expected.to respond_to(:page_days?) }
+  describe '#has_day_metadata?' do
+    it { is_expected.to respond_to(:has_day_metadata?) }
 
     context 'when it has page_days' do
       it 'returns true' do
         page.page_days.new
-        expect(page.page_days?).to be_truthy
+        expect(page.has_day_metadata?).to be_truthy
       end
     end
 
     context 'when it does not have a page_day' do
       it 'returns true' do
         page.page_days = []
-        expect(page.page_days?).to be_falsy
+        expect(page.has_day_metadata?).to be_falsy
       end
     end
   end

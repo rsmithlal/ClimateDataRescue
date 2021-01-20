@@ -7,7 +7,7 @@ json.id @transcription.id
 json.page do
   json.id @transcription.page.id
   json.title @transcription.page.title
-  if @transcription.page.has_metadata?
+  if @transcription.page.has_day_metadata?
     json.start_date @transcription.page.page_days.first.date
     json.end_date @transcription.page.page_days.last.date
   else

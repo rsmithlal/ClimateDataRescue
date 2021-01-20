@@ -60,7 +60,7 @@ class Page < ApplicationRecord
     where(condition)
   }
 
-  def has_metadata?
+  def has_day_metadata?
     page_days.any?
   end
 
