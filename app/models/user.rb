@@ -33,7 +33,7 @@ class User < ApplicationRecord
     :retina   => '-set colorspace sRGB -strip -sharpen 0x0.5'
   },
   default_style: :thumb,
-  url: "/uploads/:class/:style/:image_file_name"
+  url: "/uploads/:class/:style/:avatar_file_name"
 
   validates_attachment :avatar,
     :size => { :in => 0..2.megabytes },
