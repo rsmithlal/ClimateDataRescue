@@ -1,5 +1,7 @@
 class CreatePageInfos < ActiveRecord::Migration[5.2]
   def change
+    return if table_exists?(:page_infos)
+
     create_table :page_infos do |t|
       t.string :observer
       t.string :lat
