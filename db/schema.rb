@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_17_020739) do
+ActiveRecord::Schema.define(version: 2020_12_31_221221) do
 
   create_table "annotations", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.integer "x_tl"
@@ -28,9 +28,16 @@ ActiveRecord::Schema.define(version: 2020_02_17_020739) do
     t.index ["field_group_id"], name: "by_field_group"
     t.index ["page_id"], name: "by_page"
     t.index ["transcription_id"], name: "by_transcription"
+    t.index ["x_tl"], name: "annotations_x_tl_IDX"
   end
 
-  create_table "content_images", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "better_together_posts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.string "bt_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "content_images", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "image_file_name"
     t.string "image_content_type"
     t.integer "image_file_size"
@@ -134,6 +141,17 @@ ActiveRecord::Schema.define(version: 2020_02_17_020739) do
     t.string "internal_name"
   end
 
+  create_table "friendly_id_slugs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.string "slug", null: false
+    t.integer "sluggable_id", null: false
+    t.string "sluggable_type", limit: 50
+    t.string "scope"
+    t.datetime "created_at"
+    t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true, length: { slug: 70, scope: 70 }
+    t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", length: { slug: 140 }
+    t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
+  end
+
   create_table "ledgers", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title"
     t.string "ledger_type"
@@ -141,11 +159,39 @@ ActiveRecord::Schema.define(version: 2020_02_17_020739) do
     t.datetime "updated_at"
   end
 
-  create_table "page_days", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "mobility_string_translations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.string "locale", null: false
+    t.string "key", null: false
+    t.string "value"
+    t.string "translatable_type"
+    t.bigint "translatable_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["translatable_id", "translatable_type", "key"], name: "index_mobility_string_translations_on_translatable_attribute"
+    t.index ["translatable_id", "translatable_type", "locale", "key"], name: "index_mobility_string_translations_on_keys", unique: true
+    t.index ["translatable_type", "key", "value", "locale"], name: "index_mobility_string_translations_on_query_keys"
+  end
+
+  create_table "mobility_text_translations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.string "locale", null: false
+    t.string "key", null: false
+    t.text "value"
+    t.string "translatable_type"
+    t.bigint "translatable_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["translatable_id", "translatable_type", "key"], name: "index_mobility_text_translations_on_translatable_attribute"
+    t.index ["translatable_id", "translatable_type", "locale", "key"], name: "index_mobility_text_translations_on_keys", unique: true
+  end
+
+  create_table "page_days", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.date "date"
     t.integer "num_observations"
     t.integer "page_id"
     t.integer "user_id"
+    t.integer "lock_version", default: 0, null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["page_id"], name: "by_page"
     t.index ["user_id"], name: "by_user"
   end
@@ -185,7 +231,7 @@ ActiveRecord::Schema.define(version: 2020_02_17_020739) do
     t.index ["page_type_id"], name: "index_page_types_field_groups_on_page_type_id"
   end
 
-  create_table "pages", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "pages", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title"
     t.integer "height"
     t.integer "width"
@@ -205,7 +251,7 @@ ActiveRecord::Schema.define(version: 2020_02_17_020739) do
     t.index ["page_type_id"], name: "index_pages_on_page_type_id"
   end
 
-  create_table "sessions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "sessions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "session_id", null: false
     t.text "data", limit: 4294967295
     t.datetime "created_at", null: false
@@ -229,7 +275,7 @@ ActiveRecord::Schema.define(version: 2020_02_17_020739) do
     t.index ["static_page_id"], name: "index_static_page_translations_on_static_page_id"
   end
 
-  create_table "static_pages", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "static_pages", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.boolean "show_in_header", default: false, null: false
     t.boolean "show_in_footer", default: false, null: false
     t.boolean "visible", default: true, null: false
@@ -240,6 +286,7 @@ ActiveRecord::Schema.define(version: 2020_02_17_020739) do
     t.boolean "title_as_header", default: true
     t.integer "parent_id"
     t.boolean "show_in_transcriber", default: false
+    t.index ["parent_id"], name: "fk_rails_7542642651"
   end
 
   create_table "transcriptions", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
@@ -248,10 +295,15 @@ ActiveRecord::Schema.define(version: 2020_02_17_020739) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean "complete", default: false, null: false
+    t.integer "field_groups_fields_count", default: 0, null: false
+    t.integer "data_entries_count", default: 0, null: false
+    t.integer "started_rows_count", default: 0, null: false
+    t.integer "expected_rows_count", default: 0, null: false
+    t.index ["page_id"], name: "fk_rails_fa14a87e4a"
     t.index ["user_id", "page_id"], name: "user_page", unique: true
   end
 
-  create_table "users", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "users", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -275,9 +327,14 @@ ActiveRecord::Schema.define(version: 2020_02_17_020739) do
     t.integer "avatar_file_size"
     t.datetime "avatar_updated_at"
     t.boolean "dismissed_box_tutorial", default: false, null: false
+    t.string "full_name"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "pages", "page_types"
+  add_foreign_key "static_pages", "static_pages", column: "parent_id"
+  add_foreign_key "transcriptions", "pages"
+  add_foreign_key "transcriptions", "users"
 end

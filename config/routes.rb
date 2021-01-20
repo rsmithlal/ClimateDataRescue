@@ -1,7 +1,24 @@
 Rails.application.routes.draw do
+  authenticate :user do
+    namespace :api do
+      namespace :v1 do
+        resources :pages, only: %i[index]
+        resources :page_types, only: %i[index]
+      end
+    end
+  end
+
+  namespace :better_together, path: '/' do
+    resources :posts, only: %i(index show)
+  end
   filter :locale
 
   namespace :admin do
+    namespace :better_together, path: '/' do
+      resources :posts
+    end
+
+
     get '/' => 'admin#landing'
     resources :content_images
     match "content_images/:id/delete" => "content_images#destroy", via: [:get, :delete], as: 'delete_content_image'
@@ -52,7 +69,7 @@ Rails.application.routes.draw do
 
 
   resources :pages, only: [:show, :index]
-  get 'weather-logs' => 'pages#index', as: "public_pages_index"
+  get 'pages' => 'pages#index', as: "public_pages_index"
   # post 'pages' => 'pages#create', as: "pages_create"
 
   resources :field_options, only: [:index]
@@ -63,11 +80,16 @@ Rails.application.routes.draw do
   resources :field_groups, only: [:index]
 
   devise_for :users, :controllers => {:registrations => "registrations"}
-  resources :users, except: [:create, :new, :destroy, :index]
+  resources :users, except: [:create, :new, :destroy, :index] do
+    member do
+      get :completed_transcriptions, to: 'transcriptions#completed_transcriptions_table'
+    end
+  end
   match 'users/dismiss_box_tutorial' => 'users#dismiss_box_tutorial', :via => [:post]
-  get 'my-profile' => 'users#my_profile', as: "my_profile"
+  get 'my-profile' => 'users#show', as: "my_profile"
+  get 'my-profile/certificate' => 'users#my_certificate', as: 'my_certificate'
 
-  post 'create_page_metadata' => "page_days#create"
+  post 'create_page_metadata' => 'page_days#create'
 
   scope path: 'page-metadata' do
     post 'create' => 'page_days#create'
@@ -80,7 +102,7 @@ Rails.application.routes.draw do
   end
   resources :static_pages
   constraints(StaticPage) do
-    get ':locale/(*path)', to: 'static_pages#show', as: 'static'
+    get ':locale/(*path)', to: 'static_pages#show', as: 'static', format: false
   end
 
   # authenticate :user, lambda { |u| u.admin? } do

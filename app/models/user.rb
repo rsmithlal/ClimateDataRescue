@@ -7,6 +7,8 @@ class User < ApplicationRecord
   has_many :data_entries
   has_many :pages, through: :transcriptions
 
+  validates :display_name, uniqueness: true
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -33,7 +35,6 @@ class User < ApplicationRecord
   default_style: :thumb,
   url: "/uploads/:class/:style/:image_file_name"
 
-  
   validates_attachment :avatar,
     :size => { :in => 0..2.megabytes },
     :content_type => { :content_type => /^image\/(jpeg|jpg|png)$/ }

@@ -7,7 +7,7 @@ class Page < ApplicationRecord
 
   has_many :field_groups, through: :page_type
   has_many :fields, through: :field_groups
-  has_many :transcriptions, dependent: :destroy  
+  has_many :transcriptions, dependent: :destroy, autosave: true
   has_many :page_days, dependent: :destroy
   has_many :data_entries, dependent: :destroy
   has_one :page_info, dependent: :destroy
@@ -60,7 +60,7 @@ class Page < ApplicationRecord
     where(condition)
   }
 
-  def page_days?
+  def has_metadata?
     page_days.any?
   end
 
@@ -72,7 +72,7 @@ class Page < ApplicationRecord
     if page_days.any?
       page_days.sum(:num_observations)
     else
-      nil
+      0
     end
   end
   

@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 5.2.3'
+gem 'rails', '~> 5.2.4.4'
 
 gem 'mysql2'
 
@@ -19,7 +19,6 @@ gem 'activerecord-session_store'
 gem 'sass-rails'
 #gem 'sprockets-rails'
 gem 'bootstrap-sass'
-gem 'autoprefixer-rails'
 
 # source 'https://rails-assets.org' do
 #   gem 'rails-assets-tether', '>= 1.1.0'
@@ -35,7 +34,7 @@ gem 'log4r'
 
 #for user authentication
 gem 'devise'
-
+gem 'pundit'
 #to handle .slim files
 gem 'slim-rails'
 
@@ -52,10 +51,11 @@ gem 'aws-sdk-s3', '~> 1'
 # Support for tag inputs
 gem 'select2-rails'
 
-# gem "rails-backbone"
-
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder'
+
+gem 'jsonapi-rails'
+gem 'jsonapi-rspec'
 
 gem "jquery-fileupload-rails"
 
@@ -65,22 +65,29 @@ gem 'http_accept_language'
 
 gem 'rails-i18n'
 gem 'i18n-active_record', :require => 'i18n/active_record'
+# gem 'i18n-tasks'
 
 gem 'rails-observers'
 
+gem 'friendly_id', '~> 5.3.0'
+gem 'mobility', '~> 0.8.13'
+gem 'friendly_id-mobility', '~> 0.5.5'
+
 gem 'globalize', git: 'https://github.com/globalize/globalize'
 gem 'globalize-accessors'
-gem "skylight"
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'newrelic_rpm'
-gem 'rollbar'
-gem 'puma',  '~> 4.3.1'
+
+gem 'puma',  '~> 4.3.7'
 
 gem "recaptcha", require: "recaptcha/rails"
 
 gem 'bootsnap', '>= 1.1.0', require: false
+
+gem 'webpacker', '~> 3.5'
+gem 'websocket-extensions', '~> 0.1.5'
 
 # Deploy with Capistrano
 # Deploy with Capistrano
@@ -116,10 +123,12 @@ group :development, :test do
   gem 'pry'
   gem 'rubocop-rspec'
   gem 'listen'
-  gem 'faker', '~> 1.9.1'
+  gem 'faker', '~> 2.15.1'
   gem 'factory_bot_rails'
   gem 'shoulda-matchers'
   gem 'shoulda-callback-matchers'
+  gem 'capybara'
+  gem 'database_cleaner'
 end
 
 group :test do

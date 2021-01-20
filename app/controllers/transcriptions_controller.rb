@@ -10,6 +10,60 @@ class TranscriptionsController < ApplicationController
     redirect_to my_profile_path
   end
 
+  def completed_transcriptions_table
+    if params[:id] #user ID
+      @user = User.includes(
+        {
+          transcriptions: [
+            { 
+              page: [
+                :page_days
+              ] 
+            },
+            :annotations
+          ]
+        },
+        :data_entries
+      ).find(params[:id])
+
+      page = params[:page].to_i
+      per_page = params[:per_page].to_i
+
+      offset = per_page * (page - 1)
+      limit = per_page
+
+      @completed_transcriptions =
+        @user.transcriptions
+             .completed
+             .order(updated_at: :desc)
+             .includes([
+               { 
+                 page: [
+                   :page_days,
+                   :page_type
+                 ] 
+               },
+               { annotations: :data_entries },
+               :user
+             ])
+             .references([
+               { 
+                 page: [
+                   :page_days,
+                   :page_type
+                 ] 
+               },
+               { annotations: :data_entries },
+               :user
+             ])
+             .offset(offset)
+             .limit(limit)
+      respond_to do |format|
+        format.html {render layout: 'raw'}
+      end
+    end
+  end
+
   # GET /transcriptions/transcription_id
   # GET /transcriptions/transcription_id.json
   def show    
@@ -21,6 +75,17 @@ class TranscriptionsController < ApplicationController
       
       if params['only_data_table'].present? && params['only_data_table'] == true || params['only_data_table'] == 'true'
         render 'data_view', layout: 'raw'
+      end
+      respond_to do |format|
+        format.html
+        format.csv do
+          require 'csv'
+          response.headers['Content-Disposition'] =
+            "attachment; \
+            filename=DRAW_transcription_#{@transcription.id}_#{DateTime.current}.csv"
+          # response.headers['Content-Type'] = 'text/plain'
+        end
+        format.json
       end
     else
       flash[:danger] = 'Only users can view transcriptions! <a href="' + new_user_session_path + '">Log in to continue.</a>'
