@@ -10,6 +10,7 @@ module QueryFilters
       set_image_file_name
       set_page_type_id
       set_page_days
+      set_page_info
       set_start_date
       set_title
       set_transcriptions
@@ -79,6 +80,25 @@ module QueryFilters
         append_condition(
           tables.pages[:id].not_in(
             tables.page_days.project(tables.page_days[:page_id])
+          )
+        )
+      end
+    end
+
+    def set_page_info
+      return if filters.page_info.blank?
+
+      if filters.page_info === 'true'
+        append_condition(
+          tables.pages[:id].in(
+            tables.page_infos.project(tables.page_infos[:page_id])
+          )
+        )
+      else
+        # no page_infos, where the page id is not in the page_infos
+        append_condition(
+          tables.pages[:id].not_in(
+            tables.page_infos.project(tables.page_infos[:page_id])
           )
         )
       end

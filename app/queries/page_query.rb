@@ -5,6 +5,7 @@ class PageQuery < BaseQuery
     {
       pages: ::Page.arel_table,
       page_days: ::PageDay.arel_table,
+      page_infos: ::PageInfo.arel_table,
       transcriptions: ::Transcription.arel_table
     }
   end

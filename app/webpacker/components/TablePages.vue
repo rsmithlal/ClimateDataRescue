@@ -139,6 +139,16 @@
             />
           </template>
           <template
+            v-slot:head(page_info)="data"
+          >
+            <b>{{ data.label }}</b>
+
+            <table-filter-boolean
+              v-model="filters.page_info"
+              class="page_info"
+            />
+          </template>
+          <template
             v-slot:head(transcriptions)="data"
           >
             <b>{{ data.label }}</b>
@@ -207,6 +217,14 @@
           >
             <TableCellPageDays
               :page_days="data.item.page_days"
+            />
+          </template>
+          <template
+            v-slot:cell(page_info)="data"
+          >
+            <TableCellPageInfo
+              v-if="data.item.page_info"
+              :page_info="data.item.page_info"
             />
           </template>
           <template
@@ -303,6 +321,7 @@
 <script>
 import { mapActions } from 'vuex'
 import TableCellPageDays from './TableCellPageDays'
+import TableCellPageInfo from './TableCellPageInfo'
 import TableCellPageTranscriptions from './TableCellPageTranscriptions'
 import TableFilterBoolean from './TableFilterBoolean'
 import TableFilterSelect from './TableFilterSelect'
@@ -313,6 +332,7 @@ export default {
   name: 'TablePages',
   components: {
     TableCellPageDays,
+    TableCellPageInfo,
     TableCellPageTranscriptions,
     TableFilterBoolean,
     TableFilterSelect,
@@ -378,8 +398,14 @@ export default {
         },
         {
           key: 'page_days',
-          label: 'Metadata',
+          label: 'Days/Obvs',
           class: 'page-days',
+          sortable: false
+        },
+        {
+          key: 'page_info',
+          label: 'Observer/Station/Date',
+          class: 'page-info',
           sortable: false
         },
         {
@@ -413,6 +439,7 @@ export default {
         image_file_name: '',
         page_type_id: null,
         page_days: null,
+        page_info: null,
         start_date: '',
         title: '',
         transcriptions: null,
@@ -481,6 +508,7 @@ export default {
         'filters[image_file_name]': this.filters.image_file_name,
         'filters[page_type_id]': this.filters.page_type_id,
         'filters[page_days]': this.filters.page_days,
+        'filters[page_info]': this.filters.page_info,
         'filters[start_date]': this.filters.start_date,
         'filters[title]': this.filters.title,
         'filters[transcriptions]': this.filters.transcriptions,
@@ -495,6 +523,11 @@ export default {
           // Store all of the page_types for the result set so they can be
           this.page_types = response.included.filter(relation => {
             return relation.type === 'page_types'
+          })
+
+          // Store all of the page_infos for the result set so they can be
+          this.page_infos = response.included.filter(relation => {
+            return relation.type === 'page_infos'
           })
 
           // Store all of the page_days for the result set so they can be
@@ -516,6 +549,13 @@ export default {
             // rows will have access to the page_type data
             page.page_type = this.page_types.find(pageType => {
               return pageType.id === page.relationships.page_type.data.id
+            })
+
+            // Find the page_info for each page, and then set the page_info
+            // property on the page to the page_info we found so that the page
+            // rows will have access to the page_info data
+            page.page_info = this.page_infos.find(pageType => {
+              return page.relationships.page_info.data && pageType.id === page.relationships.page_info.data.id
             })
 
             // Find the page_days for each page, and then

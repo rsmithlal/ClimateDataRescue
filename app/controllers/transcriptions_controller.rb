@@ -96,26 +96,20 @@ class TranscriptionsController < ApplicationController
   # GET /transcriptions/new
   # GET /transcriptions/new.json
   def new
-    if current_user
-      # @transcription is a variable containing an instance of the "transcription.rb" model.
-      # It is passed to the transcription view "new.html.slim" (project_root/transcriptions/new)
-      # and is used to populate the page with information about the transcription instance.
-      # "new.html.slim" loads the reusable form "_form.html.slim" which loads input fields to 
-      # set the attributes of the new transcription instance.
-      
-      @page = get_or_assign_page(params[:current_page_id])
-      
-      if @page && current_user.transcriptions.any? && (current_user.transcriptions.collect(&:page_id).include? @page.id)
-        redirect_to edit_transcription_path(current_user.transcriptions.find_by(:page_id => @page.id))
-      end
-      @user = current_user
-      @field_groups = @page.page_type.field_groups if @page && @page.page_type
-      @transcription = Transcription.new
-      
-    else
-      flash[:danger] = 'Only users can transcribe pages. <a href="' + new_user_session_path + '">Log in to continue.</a>'
-      redirect_to root_path
+    # @transcription is a variable containing an instance of the "transcription.rb" model.
+    # It is passed to the transcription view "new.html.slim" (project_root/transcriptions/new)
+    # and is used to populate the page with information about the transcription instance.
+    # "new.html.slim" loads the reusable form "_form.html.slim" which loads input fields to 
+    # set the attributes of the new transcription instance.
+    
+    @page = get_or_assign_page(params[:current_page_id])
+    
+    if @page && current_user.transcriptions.any? && (current_user.transcriptions.collect(&:page_id).include? @page.id)
+      redirect_to edit_transcription_path(current_user.transcriptions.find_by(:page_id => @page.id))
     end
+    @user = current_user
+    @field_groups = @page.page_type.field_groups if @page && @page.page_type
+    @transcription = Transcription.new
   end
 
   # GET /transcriptions/transcription_id/edit
@@ -197,7 +191,7 @@ class TranscriptionsController < ApplicationController
   
   private
 
-  def get_or_assign_page(page_id) #TODO: shouldn't this be in the helper - file not the controller?
+  def get_or_assign_page(page_id)
   # this function gets a random page for display on the new transcription page 
   # if one has not been set by selecting "Transcribe" on an page's show page
     if page_id

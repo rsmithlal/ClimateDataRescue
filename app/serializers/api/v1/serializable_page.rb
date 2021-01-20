@@ -6,6 +6,7 @@ module Api
       type 'pages'
 
       has_one :page_type
+      has_one :page_info
       has_many :transcriptions
       has_many :page_days
 

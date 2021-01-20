@@ -40,7 +40,7 @@ class Page < ApplicationRecord
       done: false,
       visible: true, 
       page_types: { visible: true }
-    ).order("pages.start_date asc").distinct
+    ).order("pages.start_date asc")
   }
 
   scope :unseen, -> (user) {
