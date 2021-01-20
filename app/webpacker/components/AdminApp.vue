@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import McGillBackground from '../../assets/images/mcgill-background.jpg'
+import McGillBackground from '../../assets/images/backgrounds/mcgill-background.jpg'
 import Footer from './Footer'
 import Header from './Header'
 
