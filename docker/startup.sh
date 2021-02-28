@@ -3,7 +3,7 @@
 # ./docker/wait-for-services.sh
 ./docker/prepare-db.sh
 # mkdir ./tmp/pids
-pid = tmp/pids/server.pid
+pid = ./tmp/pids/server.pid
 
 if test -f "$pid"; then
   echo "$pid exists."
