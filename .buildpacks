@@ -1,2 +1,3 @@
+https://github.com/DuckyTeam/heroku-buildpack-imagemagick.git
 https://github.com/heroku/heroku-buildpack-nodejs.git#latest
 https://github.com/heroku/heroku-buildpack-ruby.git
